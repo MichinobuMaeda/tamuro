@@ -76,9 +76,6 @@ jobs:
       - name: Set version to UI
         run: echo "export default '$(echo $GITHUB_SHA | cut -c1-7)'" > src/conf/version.js
 
-      - name: Set version to service-worker
-        run: sed s/const\ cacheName\ =\ '.*'/const\ cacheName\ =\ \'$(echo $GITHUB_SHA | cut -c1-7)\'/g -i public/service-worker.js
-
       - name: Unit test
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_CI_TOKEN }}
