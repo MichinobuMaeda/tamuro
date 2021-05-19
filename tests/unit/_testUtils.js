@@ -176,6 +176,10 @@ export const auth = {
   }
 }
 
+export const storage = {
+  ref: key => ({ getDownloadURL: () => `url_of_${key}` })
+}
+
 const messaging = {
   error: false,
   data: {
@@ -219,6 +223,7 @@ export const firebase = {
   auth,
   db: app.firestore(),
   functions,
+  storage,
   messaging,
   webPushCertificateKey: 'BPZ_fdPSU__DSq7IDD5cK6DlPUd4iEqQfuMEfXb7cHZnNsTzOTRFW5EW9lnd6Dnso1-0fulRxXsaPWcJhL0n0_4',
   FieldValue: Firebase.firestore.FieldValue

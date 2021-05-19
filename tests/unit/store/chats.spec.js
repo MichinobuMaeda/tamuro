@@ -1,6 +1,7 @@
 import {
   admin,
   auth,
+  storage,
   clearDb,
   deleteApp,
   // testData,
@@ -11,6 +12,7 @@ import {
   unsubscribeAll
 } from '../../../src/store/state'
 import {
+  getImageUrl,
   subscribeGroupChats,
   subscribeHotlines,
   postGroupChat,
@@ -32,8 +34,30 @@ afterAll(async () => {
 
 const db = admin.firestore()
 
-test('subscribeGroupChats()' +
+test('getImageUrl()' +
   ' should update group chat subscribes.', async () => {
+  // prepare
+  const state = {
+    images: {
+      key0: 'url_of_key0',
+      key1: '',
+      key2: null
+    }
+  }
+
+  // run
+  await getImageUrl({ storage, state })
+
+  // evaluate
+  expect(state.images).toEqual({
+    key0: 'url_of_key0',
+    key1: 'url_of_key1',
+    key2: 'url_of_key2'
+  })
+})
+
+test('subscribeGroupChats()' +
+  ' should set state.images.', async () => {
   // prepare #1
   const id = 'id01'
   await db.collection('groups').doc('all').set({ members: [id] })
