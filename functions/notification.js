@@ -48,7 +48,7 @@ const notifyMessage = async (doc, { db, messaging }) => {
       tokens,
       webpush: {
         headers: {
-          TTL: expTime
+          TTL: `${expTime}`
         }
       }
     })
