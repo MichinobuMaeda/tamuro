@@ -1,7 +1,9 @@
-const notifyMessage = async (doc, { db, messaging }) => {
+const notifyMessage = async (doc, { db, messaging, logger }) => {
   const conf = await db.collection('service').doc('conf').get()
   const pauseTs = new Date().getTime() - conf.data().notificationPauseRepetitionTime + 1
   const expTime = conf.data().notificationExpirationTime / 1000
+  const link = conf.data().hosting
+  const title = conf.data().notificationTitle + conf.data().notificationIconPath || 'New message'
   const icon = conf.data().hosting + conf.data().notificationIconPath
   const group = await db.collection('groups').doc(
     doc.ref.parent.id === 'hotline' ? 'managers' : doc.ref.parent.parent.id
@@ -39,19 +41,31 @@ const notifyMessage = async (doc, { db, messaging }) => {
     })
   ).then(results => results.reduce((ret, cur) => [...ret, ...cur], []))
   if (tokens.length) {
-    await messaging.sendMulticast({
-      notification: {
-        title: 'New message',
-        body: group.data().name,
-        icon
-      },
+    const message = {
       tokens,
       webpush: {
+        notification: {
+          title,
+          body: group.data().name,
+          icon
+        },
         headers: {
           TTL: `${expTime}`
+        },
+        fcmOptions: {
+          link
         }
       }
-    })
+    }
+    const response = await messaging.sendMulticast(message)
+    if (response.failureCount > 0) {
+      logger.log(message)
+      response.responses.forEach((resp, i) => {
+        if (!resp.success) {
+          logger.log(resp.error.toJSON(), tokens[i], message)
+        }
+      })
+    }
   }
 }
 
