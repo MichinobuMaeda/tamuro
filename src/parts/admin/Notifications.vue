@@ -77,14 +77,6 @@ export default {
 
     return {
       ...store,
-      name: computed({
-        get: () => state.service.conf.name,
-        set: str => waitFor(() => update(state.service.conf, { name: str }))
-      }),
-      hosting: computed({
-        get: () => state.service.conf.hosting,
-        set: str => waitFor(() => update(state.service.conf, { hosting: str }))
-      }),
       notificationExpirationTime: computed({
         get: () => state.service.conf.notificationExpirationTime,
         set: str => waitFor(() => update(state.service.conf, { notificationExpirationTime: Number(str) }))
@@ -100,14 +92,6 @@ export default {
       notificationIconPath: computed({
         get: () => state.service.conf.notificationIconPath,
         set: str => waitFor(() => update(state.service.conf, { notificationIconPath: str }))
-      }),
-      profileAddressCount: computed({
-        get: () => state.service.conf.profileAddressCount,
-        set: str => waitFor(() => update(state.service.conf, { profileAddressCount: Number(str) }))
-      }),
-      apiKey: computed({
-        get: () => state.service.conf.apiKey,
-        set: str => waitFor(() => update(state.service.conf, { apiKey: str }))
       })
     }
   }

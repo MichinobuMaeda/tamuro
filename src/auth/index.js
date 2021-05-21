@@ -14,3 +14,6 @@ export {
 export {
   getOAuthMessage
 } from './localStrage'
+export {
+  initializeMessaging
+} from '../auth/messaging'

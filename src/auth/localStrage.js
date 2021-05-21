@@ -1,3 +1,4 @@
+import crypto from 'crypto'
 import { appId } from '../conf'
 
 export const LS_REQ_EMAIL = `${appId}EmailLinkRequest`
@@ -22,6 +23,16 @@ export const getOAuthMessage = () => {
   if (message) { eraseOAuthMessage() }
   return message
 }
+
+export const LS_REQ_CLIENT_ID = `${appId}ClientId`
+
+export const storeClientId = seed => {
+  const clientId = crypto.createHash('sha256').update(new Date().toISOString() + seed).digest('base64')
+  window.localStorage.setItem(LS_REQ_CLIENT_ID, clientId)
+  return clientId
+}
+export const restoreClientId = () => window.localStorage.getItem(LS_REQ_CLIENT_ID) || ''
+export const eraseClientId = () => window.localStorage.setItem(LS_REQ_CLIENT_ID, '')
 
 export const LS_REQ_ROUTE = `${appId}RequestedRoute`
 

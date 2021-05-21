@@ -107,7 +107,6 @@ import {
   overrideDefaults,
   StoreSymbol,
   isValidAccount,
-  initializeMessaging,
   subscribeGroupChats,
   subscribeHotlines,
   requestImageUrl,
@@ -123,7 +122,8 @@ import {
   authProviders,
   returnLastRoute,
   signOut,
-  getOAuthMessage
+  getOAuthMessage,
+  initializeMessaging
 } from './auth'
 import Menu from './components/Menu'
 import Loading from './components/Loading.vue'

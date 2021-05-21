@@ -51,7 +51,7 @@ export default {
       registrations.forEach(registration => {
         registration.unregister()
       })
-      document.location.reload(true)
+      setTimeout(() => document.location.reload(true), 500)
     }
     return {
       state,

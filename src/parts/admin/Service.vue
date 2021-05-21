@@ -78,18 +78,6 @@ export default {
         get: () => state.service.conf.hosting,
         set: str => waitFor(() => update(state.service.conf, { hosting: str }))
       }),
-      notificationExpirationTime: computed({
-        get: () => state.service.conf.notificationExpirationTime,
-        set: str => waitFor(() => update(state.service.conf, { notificationExpirationTime: Number(str) }))
-      }),
-      notificationPauseRepetitionTime: computed({
-        get: () => state.service.conf.notificationPauseRepetitionTime,
-        set: str => waitFor(() => update(state.service.conf, { notificationPauseRepetitionTime: Number(str) }))
-      }),
-      notificationIconPath: computed({
-        get: () => state.service.conf.notificationIconPath,
-        set: str => waitFor(() => update(state.service.conf, { notificationIconPath: str }))
-      }),
       profileAddressCount: computed({
         get: () => state.service.conf.profileAddressCount,
         set: str => waitFor(() => update(state.service.conf, { profileAddressCount: Number(str) }))

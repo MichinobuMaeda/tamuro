@@ -10,9 +10,6 @@ export {
   sortedGroups
 } from './groups'
 export {
-  initializeMessaging
-} from './messaging'
-export {
   subscribeGroupChats,
   subscribeHotlines,
   postGroupChat,

@@ -4,11 +4,12 @@ import {
   clearDb,
   deleteApp,
   // testData,
+  setFakeWindow,
   store
 } from '../_testUtils'
 import {
   initializeMessaging
-} from '../../../src/store/messaging'
+} from '../../../src/auth/messaging'
 
 beforeEach(async () => {
   store.auth.clear()
@@ -16,6 +17,7 @@ beforeEach(async () => {
   auth.clear()
   await clearDb()
   // await testData()
+  setFakeWindow()
 })
 
 afterAll(async () => {
@@ -72,7 +74,7 @@ test('initializeMessaging()' +
 
   // prepare #3
 
-  // !!!!! CAUTION !!!!! : to be restore
+  // !!!!! CAUTION !!!!! : NODE_ENV to be restored.
   const orgEnv = process.env.NODE_ENV
   process.env.NODE_ENV = 'production'
 
@@ -80,8 +82,8 @@ test('initializeMessaging()' +
   await initializeMessaging(param)
 
   // evaluate #3
-  expect(messaging.data.getToken).toEqual({ vapidKey })
-  expect(messaging.data.onMessage).not.toThrow()
+  expect(messaging.data.getToken).toBeUndefined()
+  expect(messaging.data.onMessage).toBeUndefined()
   expect((await db.collection('accounts').doc(id).get()).data().messagingTokens || []).toHaveLength(0)
 
   // prepare #4
@@ -108,11 +110,9 @@ test('initializeMessaging()' +
   expect(messaging.data.getToken).toEqual({ vapidKey })
   expect(messaging.data.onMessage).not.toThrow()
   const myToken5 = (await db.collection('accounts').doc(id).get()).data().messagingTokens
-  expect(myToken5).toHaveLength(2)
-  expect(myToken5[0].token).toEqual('generated token 1')
+  expect(myToken5).toHaveLength(1)
+  expect(myToken5[0].token).toEqual('generated token 2')
   expect(myToken5[0].ts).toBeDefined()
-  expect(myToken5[1].token).toEqual('generated token 2')
-  expect(myToken5[1].ts).toBeDefined()
 
   // prepare #6
 
@@ -123,11 +123,9 @@ test('initializeMessaging()' +
   expect(messaging.data.getToken).toEqual({ vapidKey })
   expect(messaging.data.onMessage).not.toThrow()
   const myToken6 = (await db.collection('accounts').doc(id).get()).data().messagingTokens
-  expect(myToken6).toHaveLength(2)
-  expect(myToken6[0].token).toEqual('generated token 1')
+  expect(myToken6).toHaveLength(1)
+  expect(myToken6[0].token).toEqual('generated token 2')
   expect(myToken6[0].ts).toBeDefined()
-  expect(myToken6[1].token).toEqual('generated token 2')
-  expect(myToken6[1].ts).toBeDefined()
 
   // clear
   process.env.NODE_ENV = orgEnv
