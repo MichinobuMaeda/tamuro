@@ -79,13 +79,18 @@ const auth = {
 
 const messaging = {
   error: false,
-  data: {},
+  data: {
+    failureCount: 0
+  },
   clear () {
     this.error = false
     this.data = {}
   },
   sendMulticast (message) {
     this.data.message = message
+    return {
+      failureCount: this.data.failureCount
+    }
   }
 }
 
