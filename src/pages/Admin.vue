@@ -63,6 +63,7 @@
           <Invitation v-else-if="target === 'invitation'" />
           <UiPreferences v-else-if="target === 'defaults'" class="my-2" :entity="state.service.conf" />
           <Authentication v-else-if="target === 'auth'" />
+          <Notifications v-else-if="target === 'notifications'" />
           <Service v-else-if="target === 'service'" />
         </v-card-text>
       </v-card>
@@ -82,6 +83,7 @@ import Categories from '../parts/admin/Categories'
 import Invitation from '../parts/admin/Invitation'
 import UiPreferences from '../parts/UiPreferences'
 import Authentication from '../parts/admin/Authentication'
+import Notifications from '../parts/admin/Notifications'
 import Service from '../parts/admin/Service'
 
 export default {
@@ -96,6 +98,7 @@ export default {
     Invitation,
     UiPreferences,
     Authentication,
+    Notifications,
     Service
   },
   setup () {
@@ -150,6 +153,11 @@ export default {
           target: 'auth',
           icon: 'Sign in',
           label: 'Authentication'
+        },
+        {
+          target: 'notifications',
+          icon: 'Notifications',
+          label: 'Notifications'
         },
         {
           target: 'service',

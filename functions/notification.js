@@ -3,7 +3,7 @@ const notifyMessage = async (doc, { db, messaging, logger }) => {
   const pauseTs = new Date().getTime() - conf.data().notificationPauseRepetitionTime + 1
   const expTime = conf.data().notificationExpirationTime / 1000
   const link = conf.data().hosting
-  const title = conf.data().notificationTitle + conf.data().notificationIconPath || 'New message'
+  const title = conf.data().notificationTitle || 'New message'
   const icon = conf.data().hosting + conf.data().notificationIconPath
   const group = await db.collection('groups').doc(
     doc.ref.parent.id === 'hotline' ? 'managers' : doc.ref.parent.parent.id

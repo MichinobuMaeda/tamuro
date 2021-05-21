@@ -60,6 +60,7 @@ const iconList = {
   Expand: 'expand_more',
   Shrink: 'expand_less',
   Chat: 'chat',
+  Notifications: 'notifications',
   'Go top': 'arrow_upward',
   'Go bottom': 'arrow_downward',
   Preview: 'preview',

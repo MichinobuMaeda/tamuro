@@ -2,48 +2,55 @@
   <v-row>
     <v-col class="col-12">
       <v-row>
-        <v-col class="title--text col-4 text-right">{{ $t('Site name') }}</v-col>
-        <v-col class="col-8">
-          <TextEditor
-            :label="$t('Site name')"
-            v-model="name"
-            :rules="[ruleRequired]"
-            :editable="me.priv.manager"
-            :disabled="!!state.waitProc"
-          />
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col class="title--text col-4 text-right">URL</v-col>
-        <v-col class="col-8">
-          <TextEditor
-            label="URL"
-            v-model="hosting"
-            :rules="[ruleRequired, ruleUrl]"
-            :editable="me.priv.admin"
-            :disabled="!!state.waitProc"
-          />
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col class="title--text col-4 text-right">{{ $t('Max count of addresses') }}</v-col>
-        <v-col class="col-8">
+        <v-col class="title--text col-4 text-right">{{ $t('Notification expiration') }}</v-col>
+        <v-col class="col-4">
           <TextEditor
             type="number"
-            :label="$t('Max count of addresses')"
-            v-model="profileAddressCount"
-            :rules="[rulePositive]"
-            :editable="me.priv.manager"
+            :label="$t('Notification expiration')"
+            v-model="notificationExpirationTime"
+            :rules="[ruleNotNegative]"
+            :editable="me.priv.admin || me.priv.manager"
+            :disabled="!!state.waitProc"
+          />
+        </v-col>
+        <v-col class="col-4">
+          {{ msecToDaysAndTime(notificationExpirationTime || 0) }}
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col class="title--text col-4 text-right">{{ $t('Notification pause repetition') }}</v-col>
+        <v-col class="col-4">
+          <TextEditor
+            type="number"
+            :label="$t('Notification pause repetition')"
+            v-model="notificationPauseRepetitionTime"
+            :rules="[ruleNotNegative]"
+            :editable="me.priv.admin || me.priv.manager"
+            :disabled="!!state.waitProc"
+          />
+        </v-col>
+        <v-col class="col-4">
+          {{ msecToDaysAndTime(notificationPauseRepetitionTime || 0) }}
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col class="title--text col-4 text-right">{{ $t('Notification title') }}</v-col>
+        <v-col class="col-8">
+          <TextEditor
+            :label="$t('Notification icon')"
+            v-model="notificationTitle"
+            :rules="[ruleRequired]"
+            :editable="me.priv.admin || me.priv.manager"
             :disabled="!!state.waitProc"
           />
         </v-col>
       </v-row>
       <v-row>
-        <v-col class="title--text col-4 text-right">API key</v-col>
+        <v-col class="title--text col-4 text-right">{{ $t('Notification icon') }}</v-col>
         <v-col class="col-8">
           <TextEditor
-            label="API key"
-            v-model="apiKey"
+            :label="$t('Notification icon')"
+            v-model="notificationIconPath"
             :rules="[ruleRequired]"
             :editable="me.priv.admin"
             :disabled="!!state.waitProc"
@@ -85,6 +92,10 @@ export default {
       notificationPauseRepetitionTime: computed({
         get: () => state.service.conf.notificationPauseRepetitionTime,
         set: str => waitFor(() => update(state.service.conf, { notificationPauseRepetitionTime: Number(str) }))
+      }),
+      notificationTitle: computed({
+        get: () => state.service.conf.notificationTitle,
+        set: str => waitFor(() => update(state.service.conf, { notificationTitle: str }))
       }),
       notificationIconPath: computed({
         get: () => state.service.conf.notificationIconPath,
