@@ -83,7 +83,6 @@ jobs:
         run: yarn test:unit:ci
 
       - name: Build UI
-        if: ${{ github.ref == 'refs/heads/main' }}
         run: yarn build
 
       - name: Set version to Hosting
